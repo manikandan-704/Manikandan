@@ -89,7 +89,7 @@ const Hero = () => {
                 <div className="w-full h-full rounded-full bg-dark-bg flex items-center justify-center">
                   <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-gradient-to-br from-accent-primary/20 to-accent-secondary/20 flex items-center justify-center text-4xl md:text-5xl font-bold gradient-text">
                     <img
-  src="/src/assets/1000051447.jpg.jpeg"
+  src="assets/1000051447.jpg.jpeg"
   alt="Your Name"
   className="w-full h-full rounded-full object-cover"
 />
