@@ -10,6 +10,7 @@
   body {
     @apply bg-dark-bg text-dark-text font-sans antialiased;
     scroll-behavior: smooth;
+    font-size: 16px;
   }
 
   ::selection {
@@ -58,15 +59,28 @@
            hover:text-accent-primary hover:scale-105;
   }
 
+  /* Resume download button — distinct teal CTA */
+  .btn-resume {
+    @apply px-6 py-3 font-medium rounded-lg transition-all duration-300
+           hover:scale-105 hover:shadow-lg border;
+    background: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 0 18px rgba(6,182,212,0.25);
+  }
+  .btn-resume:hover {
+    box-shadow: 0 0 28px rgba(6,182,212,0.45);
+  }
+
   /* Card styles */
   .card {
     @apply glass rounded-xl p-6 transition-all duration-300 
            hover:border-accent-primary/50 hover:shadow-xl hover:shadow-accent-primary/10;
   }
 
-  /* Section container */
+  /* Section container — generous desktop width */
   .section-container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20;
+    @apply max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-24;
   }
 
   /* Animated gradient border */
@@ -74,6 +88,78 @@
     @apply relative before:absolute before:inset-0 before:rounded-xl 
            before:p-[1px] before:bg-gradient-to-r before:from-accent-primary 
            before:to-accent-secondary before:content-[''] before:-z-10;
+  }
+
+  /* ── Infinite marquee ── */
+  .marquee-wrapper {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    user-select: none;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 1.5rem;
+    animation: marqueeScroll 36s linear infinite;
+    white-space: nowrap;
+    min-width: max-content;
+  }
+
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* Image-based cert card */
+  .cert-card {
+    flex-shrink: 0;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    border: 1px solid rgba(99,102,241,0.2);
+    background: rgba(17,17,17,0.75);
+    backdrop-filter: blur(14px);
+    overflow: hidden;
+    transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s;
+    cursor: default;
+  }
+
+  .cert-card:hover {
+    border-color: rgba(99,102,241,0.6);
+    box-shadow: 0 8px 32px rgba(99,102,241,0.2);
+    transform: translateY(-4px);
+  }
+
+  /* Image container inside cert card */
+  .cert-card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    background: #111;
+  }
+
+  /* Text area inside cert card */
+  .cert-card-body {
+    padding: 0.875rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
   }
 }
 
@@ -88,24 +174,18 @@
   }
 
   @keyframes slideInLeft {
-    from {
-      opacity: 0;
-      transform: translateX(-50px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+    from { opacity: 0; transform: translateX(-50px); }
+    to   { opacity: 1; transform: translateX(0); }
   }
 
   @keyframes slideInRight {
-    from {
-      opacity: 0;
-      transform: translateX(50px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+    from { opacity: 0; transform: translateX(50px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Seamless infinite scroll — track is doubled so loop is invisible */
+  @keyframes marqueeScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
   }
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Download } from 'lucide-react';
+import resumePdf from '../assets/ManiKandan_SDE_Resume.pdf';
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -11,6 +12,7 @@ const Navigation = () => {
     { name: 'About', href: '#about' },
     { name: 'Skills', href: '#skills' },
     { name: 'Projects', href: '#projects' },
+    { name: 'Certifications', href: '#certifications' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -56,7 +58,7 @@ const Navigation = () => {
           </motion.a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             {navItems.map((item, index) => (
               <motion.a
                 key={item.name}
@@ -65,7 +67,7 @@ const Navigation = () => {
                   e.preventDefault();
                   scrollToSection(item.href);
                 }}
-                className="text-dark-textSecondary hover:text-accent-primary transition-colors duration-300 cursor-pointer"
+                className="text-dark-textSecondary hover:text-accent-primary transition-colors duration-300 cursor-pointer text-sm font-medium"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
@@ -74,6 +76,20 @@ const Navigation = () => {
                 {item.name}
               </motion.a>
             ))}
+            {/* Resume button in nav */}
+            <motion.a
+              href="src/assets/Manikandan_SDE_Resume.pdf"
+              download="Manikandan_N_Resume"
+              className="btn-resume flex items-center gap-1.5 !py-2 !px-4 text-sm"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: navItems.length * 0.1 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.96 }}
+            >
+              <Download size={14} />
+              Resume
+            </motion.a>
           </div>
 
           {/* Mobile Menu Button */}

@@ -149,30 +149,6 @@ const About = () => {
                 </motion.div>
               ))}
             </div>
-
-            {/* Certification Highlight */}
-            <motion.div
-              variants={itemVariants}
-              className="glass rounded-2xl p-6 border-accent-primary/30"
-            >
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-accent-primary/10 rounded-lg">
-                  <Terminal className="text-accent-primary" size={24} />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-lg mb-1">Recent Achievement</h4>
-                  <p className="text-dark-textSecondary text-sm mb-2">
-                    30 Days Masterclass in Full Stack Development
-                  </p>
-                  <p className="text-accent-primary text-sm font-medium">
-                    NoviTech R&D Private Limited • January 2026
-                  </p>
-                  <p className="text-dark-textSecondary text-xs mt-2">
-                    Credential ID: NT_B55FSDET406
-                  </p>
-                </div>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </motion.div>

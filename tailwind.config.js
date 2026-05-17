@@ -15,9 +15,10 @@ export default {
           textSecondary: '#a1a1aa',
         },
         accent: {
-          primary: '#3b82f6',
-          secondary: '#8b5cf6',
-          gradient: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+          primary: '#6366f1',
+          secondary: '#a855f7',
+          teal: '#06b6d4',
+          gradient: 'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)',
         }
       },
       fontFamily: {
@@ -30,6 +31,8 @@ export default {
         'glow': 'glow 2s ease-in-out infinite alternate',
         'slide-up': 'slideUp 0.5s ease-out',
         'slide-down': 'slideDown 0.5s ease-out',
+        'marquee': 'marquee 30s linear infinite',
+        'marquee2': 'marquee2 30s linear infinite',
       },
       keyframes: {
         gradient: {
@@ -57,6 +60,14 @@ export default {
         slideDown: {
           '0%': { transform: 'translateY(-100px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+        marquee2: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0%)' },
         },
       },
       backgroundImage: {

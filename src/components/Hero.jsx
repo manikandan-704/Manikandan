@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown, Github, Linkedin, Mail } from 'lucide-react';
+import { ChevronDown, Github, Linkedin, Mail, Download } from 'lucide-react';
+import profilePic from '../assets/1000051447.jpg.jpeg';
+import resumePdf from '../assets/ManiKandan_SDE_Resume.pdf';
 
 const Hero = () => {
   const [displayText, setDisplayText] = useState('');
-  const fullText = 'SoftwareEngineer Manikandan = new SoftwareEngineer();';
+  const fullText = 'SoftwareEngineer <SDE> Manikandan = new SoftwareEngineer < > ();';
   const [showCursor, setShowCursor] = useState(true);
 
   useEffect(() => {
@@ -85,12 +87,12 @@ const Hero = () => {
             className="mb-8 inline-block"
           >
             <div className="relative">
-              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-r from-accent-primary to-accent-secondary p-1 animate-glow">
+              <div className="w-36 h-36 md:w-44 md:h-44 xl:w-56 xl:h-56 rounded-full bg-gradient-to-r from-accent-primary to-accent-secondary p-1 animate-glow">
                 <div className="w-full h-full rounded-full bg-dark-bg flex items-center justify-center">
-                  <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-gradient-to-br from-accent-primary/20 to-accent-secondary/20 flex items-center justify-center text-4xl md:text-5xl font-bold gradient-text">
+                  <div className="w-32 h-32 md:w-40 md:h-40 xl:w-52 xl:h-52 rounded-full bg-gradient-to-br from-accent-primary/20 to-accent-secondary/20 flex items-center justify-center">
                     <img
-  src="assets/1000051447.jpg.jpeg"
-  alt="Your Name"
+  src={profilePic}
+  alt="Manikandan N"
   className="w-full h-full rounded-full object-cover"
 />
                   </div>
@@ -117,7 +119,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4"
+            className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold mb-4"
           >
             <span className="gradient-text">Manikandan N</span>
           </motion.h1>
@@ -127,7 +129,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="text-xl md:text-2xl lg:text-3xl text-dark-textSecondary mb-6"
+            className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-dark-textSecondary mb-6"
           >
             Software Engineer
           </motion.h2>
@@ -137,12 +139,12 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="text-base md:text-lg text-dark-textSecondary max-w-2xl mx-auto mb-8 leading-relaxed"
+            className="text-base md:text-lg xl:text-xl text-dark-textSecondary max-w-3xl mx-auto mb-8 leading-relaxed"
           >
-           Software Development Engineer specializing in full-stack architecture (MERN) and backend system design.
-           Highly proficient in Java, OOP principles and advanced Data Structures and Algorithms.Experienced in developing secure RESTful APIs,
-           and optimizing data retrieval across SQL and NoSQL database architectures.Passionate about writing clean, semantic code and leveraging 
-           a deep understanding of core algorithms to solve complex technical challenges.
+           Software Development Engineer with hands-on experience architecting production-grade full-stack and microservices applications.
+Proficient in Java, Spring Boot, React.js, and distributed systems integration (RabbitMQ, Eureka, Keycloak). Backed by a strong
+foundation in Data Structures, Algorithms, and scalable RESTful API design. Adept at Agile/Scrum workflows and CI/CD pipelines,
+Motivated to leverage robust backend and system design skill set to deliver secure, highly efficient enterprise solutions.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -150,7 +152,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-12 flex-wrap"
           >
             <button
               onClick={() => scrollToSection('#projects')}
@@ -164,6 +166,15 @@ const Hero = () => {
             >
               Get in Touch
             </button>
+            {/* ── Download Resume ── */}
+            <a
+              href={resumePdf}
+              download="Manikandan_N_Resume"
+              className="btn-resume flex items-center justify-center gap-2"
+            >
+              <Download size={18} />
+              Download Resume
+            </a>
           </motion.div>
 
           {/* Social Links */}
