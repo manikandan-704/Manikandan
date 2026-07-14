@@ -1,10 +1,56 @@
-import React, { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Mail, MapPin, Phone, Send, Github, Linkedin, CheckCircle } from 'lucide-react';
+import { useScrollInView } from '../hooks/useScrollInView';
+import { containerVariants, itemVariants } from '../constants/animations';
+
+// Icon map — resolves string names from data.js to actual components
+const iconMap = { Mail, Phone, MapPin, Github, Linkedin };
+
+const contactInfo = [
+  {
+    icon: 'Mail',
+    label: 'Email',
+    value: 'nagarajpriyan2004@gmail.com',
+    href: 'mailto:nagarajpriyan2004@gmail.com',
+  },
+  {
+    icon: 'Phone',
+    label: 'Phone',
+    value: '+91 9123531598',
+    href: 'tel:+919123531598',
+  },
+  {
+    icon: 'MapPin',
+    label: 'Location',
+    value: 'Madurai, Tamil Nadu',
+    href: null,
+  },
+];
+
+const socialLinks = [
+  {
+    icon: 'Github',
+    label: 'GitHub',
+    href: 'https://github.com/manikandan-704',
+    color: 'hover:text-gray-400',
+  },
+  {
+    icon: 'Linkedin',
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/manikandan704/',
+    color: 'hover:text-blue-500',
+  },
+  {
+    icon: 'Mail',
+    label: 'Email',
+    href: 'mailto:nagarajpriyan2004@gmail.com',
+    color: 'hover:text-red-500',
+  },
+];
 
 const Contact = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { ref, isInView } = useScrollInView();
   
   const [formData, setFormData] = useState({
     name: '',
@@ -37,69 +83,8 @@ const Contact = () => {
     }, 3000);
   };
 
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: 'Email',
-      value: 'nagarajpriyan2004@gmail.com',
-      href: 'mailto:nagarajpriyan2004@gmail.com',
-    },
-    {
-      icon: Phone,
-      label: 'Phone',
-      value: '+91 9123531598',
-      href: 'tel:+919123531598',
-    },
-    {
-      icon: MapPin,
-      label: 'Location',
-      value: 'Madurai, Tamil Nadu',
-      href: null,
-    },
-  ];
-
-  const socialLinks = [
-    {
-      icon: Github,
-      label: 'GitHub',
-      href: 'https://github.com/manikandan-704',
-      color: 'hover:text-gray-400',
-    },
-    {
-      icon: Linkedin,
-      label: 'LinkedIn',
-      href: 'https://www.linkedin.com/in/manikandan704/',
-      color: 'hover:text-blue-500',
-    },
-    {
-      icon: Mail,
-      label: 'Email',
-      href: 'mailto:nagarajpriyan2004@gmail.com',
-      color: 'hover:text-red-500',
-    },
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
-  };
-
   return (
-    <section id="contact" className="section-container bg-dark-card/30" ref={ref}>
+    <section id="contact" className="section-container bg-dark-card/30" ref={ref} aria-label="Contact information">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -110,7 +95,7 @@ const Contact = () => {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
             Get In <span className="gradient-text">Touch</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-accent-primary to-accent-secondary mx-auto rounded-full" />
+          <div className="w-20 h-1 bg-gradient-to-r from-accent-primary to-accent-secondary mx-auto rounded-full" aria-hidden="true" />
           <p className="text-dark-textSecondary mt-4 max-w-2xl mx-auto">
             Let's collaborate on your next project. I'm always open to discussing new opportunities and ideas.
           </p>
@@ -121,52 +106,60 @@ const Contact = () => {
           <motion.div variants={itemVariants} className="lg:col-span-2 space-y-8">
             {/* Contact Cards */}
             <div className="space-y-4">
-              {contactInfo.map((info, index) => (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  className="glass rounded-xl p-6 group hover:border-accent-primary/50 transition-all duration-300"
-                  whileHover={{ x: 5 }}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-accent-primary/10 rounded-lg group-hover:bg-accent-primary/20 transition-colors">
-                      <info.icon className="text-accent-primary" size={24} />
+              {contactInfo.map((info, index) => {
+                const IconComponent = iconMap[info.icon];
+                return (
+                  <motion.div
+                    key={index}
+                    variants={itemVariants}
+                    className="glass rounded-xl p-6 group hover:border-accent-primary/50 transition-all duration-300"
+                    whileHover={{ x: 5 }}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="p-3 bg-accent-primary/10 rounded-lg group-hover:bg-accent-primary/20 transition-colors">
+                        {IconComponent && <IconComponent className="text-accent-primary" size={24} aria-hidden="true" />}
+                      </div>
+                      <div>
+                        <p className="text-sm text-dark-textSecondary mb-1">{info.label}</p>
+                        {info.href ? (
+                          <a
+                            href={info.href}
+                            className="text-dark-text font-medium hover:text-accent-primary transition-colors"
+                            aria-label={`${info.label}: ${info.value}`}
+                          >
+                            {info.value}
+                          </a>
+                        ) : (
+                          <p className="text-dark-text font-medium">{info.value}</p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm text-dark-textSecondary mb-1">{info.label}</p>
-                      {info.href ? (
-                        <a
-                          href={info.href}
-                          className="text-dark-text font-medium hover:text-accent-primary transition-colors"
-                        >
-                          {info.value}
-                        </a>
-                      ) : (
-                        <p className="text-dark-text font-medium">{info.value}</p>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </div>
 
             {/* Social Links */}
             <motion.div variants={itemVariants} className="glass rounded-xl p-6">
               <h3 className="text-lg font-semibold mb-4">Connect With Me</h3>
               <div className="flex gap-4">
-                {socialLinks.map((social, index) => (
-                  <motion.a
-                    key={index}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`p-3 bg-dark-bg rounded-lg text-dark-textSecondary ${social.color} transition-all duration-300 hover:scale-110`}
-                    whileHover={{ y: -5 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <social.icon size={24} />
-                  </motion.a>
-                ))}
+                {socialLinks.map((social, index) => {
+                  const IconComponent = iconMap[social.icon];
+                  return (
+                    <motion.a
+                      key={index}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`p-3 bg-dark-bg rounded-lg text-dark-textSecondary ${social.color} transition-all duration-300 hover:scale-110`}
+                      whileHover={{ y: -5 }}
+                      whileTap={{ scale: 0.95 }}
+                      aria-label={`Connect on ${social.label}`}
+                    >
+                      {IconComponent && <IconComponent size={24} aria-hidden="true" />}
+                    </motion.a>
+                  );
+                })}
               </div>
             </motion.div>
 
@@ -176,7 +169,7 @@ const Contact = () => {
               className="glass rounded-xl p-6 border-green-500/30"
             >
               <div className="flex items-center gap-3">
-                <div className="relative">
+                <div className="relative" aria-hidden="true">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
                   <div className="absolute inset-0 w-3 h-3 bg-green-500 rounded-full animate-ping" />
                 </div>
@@ -192,7 +185,7 @@ const Contact = () => {
           <motion.div variants={itemVariants} className="lg:col-span-3">
             <div className="glass rounded-2xl p-8">
               {!isSubmitted ? (
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6" aria-label="Contact form">
                   {/* Name Input */}
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-dark-text mb-2">
@@ -205,6 +198,8 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
+                      aria-required="true"
+                      autoComplete="name"
                       className="w-full px-4 py-3 bg-dark-bg border border-dark-border rounded-lg text-dark-text placeholder-dark-textSecondary focus:border-accent-primary focus:outline-none focus:ring-2 focus:ring-accent-primary/20 transition-all"
                       placeholder="John Doe"
                     />
@@ -222,6 +217,8 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
+                      aria-required="true"
+                      autoComplete="email"
                       className="w-full px-4 py-3 bg-dark-bg border border-dark-border rounded-lg text-dark-text placeholder-dark-textSecondary focus:border-accent-primary focus:outline-none focus:ring-2 focus:ring-accent-primary/20 transition-all"
                       placeholder="john@example.com"
                     />
@@ -239,6 +236,7 @@ const Contact = () => {
                       value={formData.subject}
                       onChange={handleChange}
                       required
+                      aria-required="true"
                       className="w-full px-4 py-3 bg-dark-bg border border-dark-border rounded-lg text-dark-text placeholder-dark-textSecondary focus:border-accent-primary focus:outline-none focus:ring-2 focus:ring-accent-primary/20 transition-all"
                       placeholder="Let's work together"
                     />
@@ -255,6 +253,7 @@ const Contact = () => {
                       value={formData.message}
                       onChange={handleChange}
                       required
+                      aria-required="true"
                       rows={5}
                       className="w-full px-4 py-3 bg-dark-bg border border-dark-border rounded-lg text-dark-text placeholder-dark-textSecondary focus:border-accent-primary focus:outline-none focus:ring-2 focus:ring-accent-primary/20 transition-all resize-none"
                       placeholder="Tell me about your project..."
@@ -268,7 +267,7 @@ const Contact = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <Send size={20} />
+                    <Send size={20} aria-hidden="true" />
                     Send Message
                   </motion.button>
                 </form>
@@ -277,6 +276,8 @@ const Contact = () => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="text-center py-12"
+                  role="status"
+                  aria-live="polite"
                 >
                   <motion.div
                     initial={{ scale: 0 }}
@@ -284,7 +285,7 @@ const Contact = () => {
                     transition={{ delay: 0.2, type: 'spring' }}
                     className="inline-block p-4 bg-green-500/10 rounded-full mb-4"
                   >
-                    <CheckCircle size={48} className="text-green-500" />
+                    <CheckCircle size={48} className="text-green-500" aria-hidden="true" />
                   </motion.div>
                   <h3 className="text-2xl font-bold text-dark-text mb-2">Message Sent!</h3>
                   <p className="text-dark-textSecondary">

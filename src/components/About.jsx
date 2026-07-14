@@ -1,57 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { Code2, Database, Laptop, Terminal } from 'lucide-react';
+import { Laptop } from 'lucide-react';
+import { useScrollInView } from '../hooks/useScrollInView';
+import { containerVariants, itemVariants } from '../constants/animations';
+import { highlights } from '../constants/data';
 
 const About = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
-  };
-
-  const highlights = [
-    {
-      icon: Code2,
-      title: 'Daily DSA Practice',
-      description: 'Committed to solving Data Structures & Algorithms problems every day to sharpen problem-solving skills.',
-    },
-    {
-      icon: Laptop,
-      title: 'Full-Stack Expertise',
-      description: 'Proficient in MERN stack development with a focus on building scalable, user-centric applications.',
-    },
-    {
-      icon: Database,
-      title: 'System Design',
-      description: 'Understanding of database optimization, RESTful APIs, and component-based architecture.',
-    },
-    {
-      icon: Terminal,
-      title: 'Clean Code Advocate',
-      description: 'Writing maintainable, well-documented code following industry best practices and design patterns.',
-    },
-  ];
+  const { ref, isInView } = useScrollInView();
 
   return (
-    <section id="about" className="section-container" ref={ref}>
+    <section id="about" className="section-container" ref={ref} aria-label="About me">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -62,7 +20,7 @@ const About = () => {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
             About <span className="gradient-text">Me</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-accent-primary to-accent-secondary mx-auto rounded-full" />
+          <div className="w-20 h-1 bg-gradient-to-r from-accent-primary to-accent-secondary mx-auto rounded-full" aria-hidden="true" />
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -74,7 +32,7 @@ const About = () => {
               </h3>
               <div className="space-y-4 text-dark-textSecondary leading-relaxed">
                 <p>
-                  I'm a Recent Graduate <span className="text-accent-primary font-medium">Computer Science & Design</span> student 
+                  I'm a Recent Graduate <span className="text-accent-primary font-medium">Computer Science &amp; Design</span> student 
                   at Sethu Institute of Technology, based in Madurai, Tamil Nadu. My journey in software 
                   development is driven by a passion for creating elegant solutions to complex problems.
                 </p>
@@ -102,12 +60,12 @@ const About = () => {
             <motion.div variants={itemVariants} className="glass rounded-2xl p-6">
               <div className="flex items-start gap-4">
                 <div className="p-3 bg-accent-primary/10 rounded-lg">
-                  <Laptop className="text-accent-primary" size={24} />
+                  <Laptop className="text-accent-primary" size={24} aria-hidden="true" />
                 </div>
                 <div>
                   <h4 className="font-semibold text-lg mb-1">Education</h4>
                   <p className="text-dark-textSecondary text-sm">
-                    B.E. Computer Science & Design
+                    B.E. Computer Science &amp; Design
                   </p>
                   <p className="text-dark-textSecondary text-sm">
                     Sethu Institute of Technology • 2022-2026
@@ -135,7 +93,7 @@ const About = () => {
                 >
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-accent-primary/10 rounded-lg group-hover:bg-accent-primary/20 transition-colors">
-                      <item.icon className="text-accent-primary" size={24} />
+                      <item.icon className="text-accent-primary" size={24} aria-hidden="true" />
                     </div>
                     <div className="flex-1">
                       <h4 className="font-semibold text-lg mb-2 group-hover:text-accent-primary transition-colors">

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://manikandan-704.github.io/Manikandan/sitemap.xml

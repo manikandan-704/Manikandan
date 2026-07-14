@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, Github, Linkedin, Mail, Download } from 'lucide-react';
+import { scrollToSection } from '../hooks/useScrollInView';
 import profilePic from '../assets/1000051447.jpg.jpeg';
-import resumePdf from '../assets/ManiKandan_SWE_Resume.pdf';
+
+const RESUME_URL = './assets/ManiKandan_SWE_Resume.pdf';
 
 const Hero = () => {
   const [displayText, setDisplayText] = useState('');
-  const fullText = 'SoftwareEngineer <SDE> Manikandan = new SoftwareEngineer < > ();';
+  const fullText = 'SoftwareEngineer <SWE> Manikandan = new SoftwareEngineer < > ();';
   const [showCursor, setShowCursor] = useState(true);
 
   useEffect(() => {
@@ -30,26 +32,27 @@ const Hero = () => {
     };
   }, []);
 
-  const scrollToSection = (href) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  // Floating particles animation
-  const particles = Array.from({ length: 20 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 4 + 2,
-    duration: Math.random() * 3 + 2,
-  }));
+  // Floating particles — memoized to avoid recreating on every render
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 20 }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: Math.random() * 4 + 2,
+        duration: Math.random() * 3 + 2,
+      })),
+    []
+  );
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      aria-label="Hero introduction"
+    >
       {/* Animated Background Particles */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
         {particles.map((particle) => (
           <motion.div
             key={particle.id}
@@ -74,7 +77,7 @@ const Hero = () => {
       </div>
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-bg via-dark-bg/50 to-dark-bg z-0" />
+      <div className="absolute inset-0 bg-gradient-to-b from-dark-bg via-dark-bg/50 to-dark-bg z-0" aria-hidden="true" />
 
       {/* Content */}
       <div className="section-container relative z-10">
@@ -91,10 +94,14 @@ const Hero = () => {
                 <div className="w-full h-full rounded-full bg-dark-bg flex items-center justify-center">
                   <div className="w-32 h-32 md:w-40 md:h-40 xl:w-52 xl:h-52 rounded-full bg-gradient-to-br from-accent-primary/20 to-accent-secondary/20 flex items-center justify-center">
                     <img
-  src={profilePic}
-  alt="Manikandan N"
-  className="w-full h-full rounded-full object-cover"
-/>
+                      src={profilePic}
+                      alt="Manikandan N — Software Engineer"
+                      width={224}
+                      height={224}
+                      loading="eager"
+                      fetchpriority="high"
+                      className="w-full h-full rounded-full object-cover"
+                    />
                   </div>
                 </div>
               </div>
@@ -108,9 +115,9 @@ const Hero = () => {
             transition={{ delay: 0.2 }}
             className="mb-6"
           >
-            <p className="font-mono text-accent-primary text-sm md:text-base mb-2">
+            <p className="font-mono text-accent-primary text-sm md:text-base mb-2" aria-label="Code-style introduction">
               {displayText}
-              <span className={`${showCursor ? 'opacity-100' : 'opacity-0'}`}>|</span>
+              <span className={`${showCursor ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true">|</span>
             </p>
           </motion.div>
 
@@ -166,13 +173,14 @@ Motivated to leverage robust backend and system design skill set to deliver secu
             >
               Get in Touch
             </button>
-            {/* ── Download Resume ── */}
+            {/* Download Resume */}
             <a
-              href={resumePdf}
+              href={RESUME_URL}
               download="Manikandan_N_Resume"
               className="btn-resume flex items-center justify-center gap-2"
+              aria-label="Download resume PDF"
             >
-              <Download size={18} />
+              <Download size={18} aria-hidden="true" />
               Download Resume
             </a>
           </motion.div>
@@ -189,22 +197,25 @@ Motivated to leverage robust backend and system design skill set to deliver secu
               target="_blank"
               rel="noopener noreferrer"
               className="text-dark-textSecondary hover:text-accent-primary transition-all duration-300 hover:scale-110"
+              aria-label="GitHub profile"
             >
-              <Github size={24} />
+              <Github size={24} aria-hidden="true" />
             </a>
             <a
               href="https://www.linkedin.com/in/manikandan704/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-dark-textSecondary hover:text-accent-primary transition-all duration-300 hover:scale-110"
+              aria-label="LinkedIn profile"
             >
-              <Linkedin size={24} />
+              <Linkedin size={24} aria-hidden="true" />
             </a>
             <a
               href="mailto:nagarajpriyan2004@gmail.com"
               className="text-dark-textSecondary hover:text-accent-primary transition-all duration-300 hover:scale-110"
+              aria-label="Send email"
             >
-              <Mail size={24} />
+              <Mail size={24} aria-hidden="true" />
             </a>
           </motion.div>
 
@@ -220,8 +231,9 @@ Motivated to leverage robust backend and system design skill set to deliver secu
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
               className="text-dark-textSecondary hover:text-accent-primary transition-colors"
+              aria-label="Scroll to About section"
             >
-              <ChevronDown size={32} />
+              <ChevronDown size={32} aria-hidden="true" />
             </motion.button>
           </motion.div>
         </div>
