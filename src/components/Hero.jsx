@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, Github, Linkedin, Mail, Download } from 'lucide-react';
 import profilePic from '../assets/1000051447.jpg.jpeg';
-import resumePdf from '../assets/ManiKandan_SDE_Resume.pdf';
+import resumePdf from '../assets/ManiKandan_SWE_Resume.pdf';
 
 const Hero = () => {
   const [displayText, setDisplayText] = useState('');
